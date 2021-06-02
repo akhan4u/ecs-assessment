@@ -17,3 +17,10 @@ variable "terraform_managed" {
   type        = bool
   default     = true
 }
+
+variable "vpc_cidr" {
+  description = "CIDR Address for VPC"
+  type        = string
+  default     = "172.16.0.0/16"
+}
+

@@ -22,3 +22,9 @@ variable "terraform_managed" {
   description = "Managed By Terraform?"
   type        = bool
 }
+
+variable "vpc_cidr" {
+  description = "CIDR Address for the VPC"
+  type        = string
+}
+

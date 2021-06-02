@@ -3,7 +3,7 @@
 data "aws_availability_zones" "default" {}
 
 resource "aws_vpc" "vpc" {
-  cidr_block = "172.16.0.1/16"
+  cidr_block = var.vpc_cidr
   tags       = merge(local.common_tags, { Name = "vpc-${local.common_tags.environment}" })
 }
 
@@ -13,28 +13,28 @@ resource "aws_internet_gateway" "default" {
 }
 
 resource "aws_subnet" "public-sub1" {
-  cidr_block        = "172.16.0.0/23"
+  cidr_block        = cidrsubnet("${aws_vpc.vpc.cidr_block}", 8, 1)
   availability_zone = data.aws_availability_zones.default.names[0]
   vpc_id            = aws_vpc.vpc.id
   tags              = merge(local.common_tags, { Name = "public-subnet1-${local.common_tags.environment}" })
 }
 
 resource "aws_subnet" "public-sub2" {
-  cidr_block        = "172.16.2.0/23"
+  cidr_block        = cidrsubnet("${aws_vpc.vpc.cidr_block}", 8, 2)
   availability_zone = data.aws_availability_zones.default.names[1]
   vpc_id            = aws_vpc.vpc.id
   tags              = merge(local.common_tags, { Name = "public-subnet2-${local.common_tags.environment}" })
 }
 
 resource "aws_subnet" "private-sub1" {
-  cidr_block        = "172.16.4.0/23"
+  cidr_block        = cidrsubnet("${aws_vpc.vpc.cidr_block}", 8, 3)
   availability_zone = data.aws_availability_zones.default.names[0]
   vpc_id            = aws_vpc.vpc.id
   tags              = merge(local.common_tags, { Name = "private-subnet1-${local.common_tags.environment}" })
 }
 
 resource "aws_subnet" "private-sub2" {
-  cidr_block        = "172.16.6.0/23"
+  cidr_block        = cidrsubnet("${aws_vpc.vpc.cidr_block}", 8, 4)
   availability_zone = data.aws_availability_zones.default.names[1]
   vpc_id            = aws_vpc.vpc.id
   tags              = merge(local.common_tags, { Name = "private-subnet2-${local.common_tags.environment}" })
